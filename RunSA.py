@@ -47,7 +47,7 @@ with open('SACase.in') as readFile:
 
         if i == 9:
             Option_Cntrl = line.split()
-            Pert = Option_Cntrl[2]
+            Pert = eval(Option_Cntrl[2])
 
         if i >= 15:
             Parameter_Entry = line.split()
@@ -130,7 +130,7 @@ for ind, prm in enumerate(PN):
 
 
             # Replace value of current parameter
-            os.system("sed -i '' \"s/{" + prm + "}/" + str(val) +"/\" " + Nml_File)
+            os.system("sed -i '' \"s/{" + prm_in + "}/" + str(val) +"/\" " + Nml_File)
 
         # Running executable
         os.system("./pom.exe")
