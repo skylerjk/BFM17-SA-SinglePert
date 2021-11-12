@@ -1,3 +1,5 @@
+#
+#
 import numpy as np
 import os
 
@@ -23,7 +25,6 @@ def find_key(Dict,val):
       if val in Search_List:
         return key
 
-
 # Parameter Names
 PN = []
 # Parameter Controls
@@ -35,10 +36,6 @@ LB = np.zeros(51)
 # Parameter Upper Bound
 UB = np.zeros(51)
 
-
-
-
-Parameter_Names = []
 with open('SACase.in') as readFile:
     for i, line in enumerate(readFile):
         if i == 7:
@@ -68,7 +65,7 @@ Home = os.getcwd()
 
 # Calculate the Normalized Nominal Values
 Norm_Val = (NV - LB) / (UB - LB)
-Pert_Val = np.copy(Norm_Val)
+# Pert_Val = np.copy(Norm_Val)
 
 # Create the run directory
 os.system("mkdir " + RunDir)
@@ -93,6 +90,21 @@ os.system("cp " + RunDir + "/Config/bin/pom.exe " + RunDir + "/Source")
 # Copy input data
 os.system("cp -r Source/Source-BFMPOM/Inputs " + RunDir)
 
+# Perform Reference Model Run
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+os.system("cp -r " + RunDir + "/Source " + RunDir + "/RefRun")
+os.chdir(RunDir + "/RefRun")
+# Writing Parameter Values to Namelists
+for i, prm in enumerate(PN):
+    Nml_File = find_key(Namelist_Dictionary, prm)
+
+    # Replace of current parameter in namelist with nominal value
+    os.system("sed -i '' \"s/{" + prm + "}/" + str(NV[i]) +"/\" " + Nml_File)
+
+# Run Reference Evaluation
+os.system("./pom.exe")
+os.chdir(Home)
+
 # Start by cycling through all the parameters
 for ind, prm in enumerate(PN):
     # Current parameter will be perturbed up and down
@@ -102,16 +114,21 @@ for ind, prm in enumerate(PN):
 
         # Calculate the perturbed value of the nominal normalized value
         if prt == 'up':
-            Pert_Val[ind] = Pert_Val[ind] + Pert
+            # Pert_Val[ind] = Pert_Val[ind] + Pert
+            test_val = NV[ind] + NV[ind]*0.025
         elif prt == 'dn':
-            Pert_Val[ind] = Pert_Val[ind] - Pert
+            # Pert_Val[ind] = Pert_Val[ind] - Pert
+            test_val = NV[ind] - NV[ind]*0.025
 
         # Corrections for if the perturbation pushes the parameter out of the
         # 0 to 1 normalized parameter space
-        if Pert_Val[ind] > 1.0:
-            Pert_Val[ind] = Pert_Val[ind] - 1.0
-        elif Pert_Val[ind] < 0.0:
-            Pert_Val[ind] = Pert_Val[ind] + 1.0
+        # if Pert_Val[ind] > 1.0:
+        #     Pert_Val[ind] = Pert_Val[ind] - 1.0
+        # elif Pert_Val[ind] < 0.0:
+        #     Pert_Val[ind] = Pert_Val[ind] + 1.0
+
+        if test_val > UB[ind] or test_val < LB[ind]:
+            continue
 
         # Create current evaluation directory
         os.system("cp -r " + RunDir + "/Source " + Eval_Directory)
@@ -124,7 +141,8 @@ for ind, prm in enumerate(PN):
 
             # Replace value of current parameter - select between pert val and nom val
             if prm_in == prm:
-                val = Pert_Val[iprm] * (UB[iprm] - LB[iprm]) + LB[iprm]
+                # val = Pert_Val[iprm] * (UB[iprm] - LB[iprm]) + LB[iprm]
+                val = test_val
             else:
                 val = NV[iprm]
 
@@ -137,4 +155,4 @@ for ind, prm in enumerate(PN):
         os.chdir(Home)
 
         # Set parameter value back to initial value
-        Pert_Val[ind] = Norm_Val[ind]
+        # Pert_Val[ind] = Norm_Val[ind]

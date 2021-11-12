@@ -5,9 +5,9 @@
 # string.                                                                      #
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- #
 # Name of the directory for running study
-RunDir = SA-Runs/OaT-Sweep-dt400
+RunDir = SA-Runs/OaT-Pert-dt400-02_5perc
 # Perturb parameters, enter value for up and down perturbation
-PrtCase = 2.0
+PrtCase = 0.1
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- #
 #                      BFM17 Parameter List and Controls                       #
@@ -53,12 +53,12 @@ ParameterList (DO NOT CHANGE ORDER, OR ADD LINES)
 38. z_paPPY     True   1.0        0.5       1.0           # Availability of phytoplankton to zooplankton
 39. p_sN4N3     True   0.01       0.005     0.015         # Specific nitrification rate at 10 deg C
 40. p_clO2o     True   10.0       5.0       10.0          # Half saturation for chemical processes
-41. p_sR6O3     True   0.1        0.05      0.45          # Specific remineralization rate of particulate carbon
-42. p_sR6N1     True   0.1        0.05      0.45          # Specific remineralization rate of particulate phosphorus
-43. p_sR6N4     True   0.1        0.05      0.45          # Specific remineralization rate of particulate nitrogen
-44. p_sR1O3     True   0.05       0.05      0.45          # Specific remineralization rate of dissolved carbon
-45. p_sR1N1     True   0.05       0.05      0.45          # Specific remineralization rate of dissolved phosphorus
-46. p_sR1N4     True   0.05       0.05      0.45          # Specific remineralization rate of dissolved nitrogen
+41. p_sR6O3     True   0.1        0.005     0.45          # Specific remineralization rate of particulate carbon
+42. p_sR6N1     True   0.1        0.005     0.45          # Specific remineralization rate of particulate phosphorus
+43. p_sR6N4     True   0.1        0.005     0.45          # Specific remineralization rate of particulate nitrogen
+44. p_sR1O3     True   0.05       0.005     0.45          # Specific remineralization rate of dissolved carbon
+45. p_sR1N1     True   0.05       0.005     0.45          # Specific remineralization rate of dissolved phosphorus
+46. p_sR1N4     True   0.05       0.005     0.45          # Specific remineralization rate of dissolved nitrogen
 47. p_rR6m      True   1.0        0.5       5.5           # Settling velocity of particulate detritus
 48. NRT_o2o     True   0.06       0.0       0.5           # Relaxation constant for oxygen at bottom
 49. NRT_n1p     True   0.06       0.0       0.5           # Relaxation constant for phosphate at bottom
