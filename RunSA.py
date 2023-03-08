@@ -36,6 +36,7 @@ LB = np.zeros(51)
 # Parameter Upper Bound
 UB = np.zeros(51)
 
+LnPI = 17 # Parameter Input Line
 with open('SACase.in') as readFile:
     for i, line in enumerate(readFile):
         if i == 7:
@@ -44,9 +45,13 @@ with open('SACase.in') as readFile:
 
         if i == 9:
             Option_Cntrl = line.split()
+            Exprmt = Option_Cntrl[2]
+
+        if i == 11:
+            Option_Cntrl = line.split()
             Pert = eval(Option_Cntrl[2])
 
-        if i >= 15:
+        if i >= LnPI:
             Parameter_Entry = line.split()
 
             # Assign Parameter Name
@@ -54,14 +59,21 @@ with open('SACase.in') as readFile:
             # Assign Parameter Control
             PC.append(eval(Parameter_Entry[2]))
             # Assign Parameter Nominal Value
-            NV[i-15] = Parameter_Entry[3]
+            NV[i-LnPI] = Parameter_Entry[3]
             # Assign Parameter Lower Boundary
-            LB[i-15] = Parameter_Entry[4]
+            LB[i-LnPI] = Parameter_Entry[4]
             # Assign Parameter Upper Boundary
-            UB[i-15] = Parameter_Entry[5]
+            UB[i-LnPI] = Parameter_Entry[5]
 
 
 Home = os.getcwd()
+
+# print(RunDir)
+# print(Exprmt)
+# print(PN)
+# print(PC)
+# print(NV)
+
 
 # Calculate the Normalized Nominal Values
 Norm_Val = (NV - LB) / (UB - LB)
@@ -82,13 +94,31 @@ os.system("./Config_BFMPOM.sh")
 os.chdir(Home)
 
 # Create template folder for sensitivity study
-os.system("cp -r Source/Source-Run " + RunDir + "/Source")
+# os.system("cp -r Source/Source-Run " + RunDir + "/Source")
+os.system("cp -r Source/Source-Run_alt " + RunDir + "/Source")
 
 # Put executable in template folder
 os.system("cp " + RunDir + "/Config/bin/pom.exe " + RunDir + "/Source")
 
+# Copy input files
+# os.system("cp -r Source/Source-BFMPOM/Inputs " + RunDir)
+
 # Copy input data
-os.system("cp -r Source/Source-BFMPOM/Inputs " + RunDir)
+if Exprmt == 'bats':
+    os.system("cp -r Source/inputs_bats " + RunDir)
+
+    os.system("sed -i '' \"s/{InDir}/..\/inputs_bats/\" " + RunDir + "/Source/BFM_General.nml")
+    os.system("sed -i '' \"s/{InDir}/..\/inputs_bats/\" " + RunDir + "/Source/pom_input.nml")
+
+elif Exprmt == 'hots':
+    os.system("cp -r Source/inputs_hots " + RunDir)
+
+    os.system("sed -i '' \"s/{InDir}/..\/inputs_hots/\" " + RunDir + "/Source/BFM_General.nml")
+    os.system("sed -i '' \"s/{InDir}/..\/inputs_hots/\" " + RunDir + "/Source/pom_input.nml")
+
+else:
+    print('Not valid case.')
+    exit()
 
 # Perform Reference Model Run
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
@@ -115,10 +145,10 @@ for ind, prm in enumerate(PN):
         # Calculate the perturbed value of the nominal normalized value
         if prt == 'up':
             # Pert_Val[ind] = Pert_Val[ind] + Pert
-            test_val = NV[ind] + NV[ind]*0.025
+            test_val = NV[ind] + NV[ind]*0.05
         elif prt == 'dn':
             # Pert_Val[ind] = Pert_Val[ind] - Pert
-            test_val = NV[ind] - NV[ind]*0.025
+            test_val = NV[ind] - NV[ind]*0.05
 
         # Corrections for if the perturbation pushes the parameter out of the
         # 0 to 1 normalized parameter space

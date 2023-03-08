@@ -5,7 +5,9 @@
 # string.                                                                      #
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- #
 # Name of the directory for running study
-RunDir = SA-Runs/OaT-Pert-dt400-02_5perc
+RunDir = SA-Runs/OaT-Pert-dt400-05perc-CheckImp-hots
+# Experiment: bats, hots
+Exprmt = hots
 # Perturb parameters, enter value for up and down perturbation
 PrtCase = 0.1
 
