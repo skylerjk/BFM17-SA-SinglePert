@@ -74,7 +74,6 @@ Home = os.getcwd()
 # print(PC)
 # print(NV)
 
-
 # Calculate the Normalized Nominal Values
 Norm_Val = (NV - LB) / (UB - LB)
 # Pert_Val = np.copy(Norm_Val)
@@ -95,7 +94,7 @@ os.chdir(Home)
 
 # Create template folder for sensitivity study
 # os.system("cp -r Source/Source-Run " + RunDir + "/Source")
-os.system("cp -r Source/Source-Run_alt " + RunDir + "/Source")
+os.system("cp -r Source/Source-Run " + RunDir + "/Source")
 
 # Put executable in template folder
 os.system("cp " + RunDir + "/Config/bin/pom.exe " + RunDir + "/Source")
