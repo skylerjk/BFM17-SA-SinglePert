@@ -7,3 +7,9 @@ This code is used to perfrom a sensitivity study of the BFM17+POM1D (Smith et al
 In order for the sensitivity analysis to proceed you need to be able to compile the BFM17+POM1D code locally. This is part of running the code above but requires GNU fortran compilers, OpenMPI, and NetCDF. You may need to update the compiler command which is included as the variables FD and LD in Source/Source-BFMPOM/compilers/gfortran.inc. 
 
 The sensitivity analysis is able to be run for two implementations of the BFM17+POM1D model: one corresponding to data from the Bermuda Atlantic time-series and another from the Hawaii Ocean time-series. The implementation used for the sensitivity analysis is selected by setting the Exprmt input to 'bats' or 'hots' respectively in the SACase.in file. The perturbation size is set using the PrtCase input, while the run directory is set using RunDir. There are 51 parameters available for inclusion in the sensitivity analysis which are set in lines 18 through 68 of the input file. The parameter name, parameter control, nominal value, lower bound, upper bound and description are included in columns. The parameter control allows for parameters to be included/excluded by toggling between True and False. 
+
+Note, there is also a code used to do parameter sweeps where instead of iteratively perturbing the parameters by a given ammount we iteratively sweep across the parameter ranges in the input file. That is we linearly discretize the parameter range between the input lower and upper bounds test changing the value while all other parameters are left at their norminal value. This is run using 
+
+>> python RunSwp.py 
+
+For this code the parameters are input using the SwpCase.in, but other run options have to be changed in the run script. 
