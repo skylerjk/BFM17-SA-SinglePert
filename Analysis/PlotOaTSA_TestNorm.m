@@ -1,15 +1,22 @@
 % =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= %
-% Script : PlotOaTSA.m                                                    %
+% Script : PlotOaTSA_TestNorm.m                                           %
 %                                                                         %
 % Description :                                                           %
-% This script produces plots of the results for a sensitivity analysis of %
-% BFM17 + POM1D. The values of the model parameters have one-at-a-time    %
-% (OaT) perturbed up and down, the effect on the model output is          %
-% calculated to determine the relative importance on the different        %
-% parameters on the model solution.                                       %
+% This script produces 4 plots of the results for a sensitivity analysis  % 
+% of BFM17 + POM1D. The values of the model parameters are one-at-a-time  %
+% perturbed up and down, the effect on the model output is calculated to  %
+% determine the relative importance on the different parameters on the    %
+% model solution. This script uses the data from the model simulations to %
+% to compare RMSD values for the up and down perturbations. Plots are     %
+% made for the case where the RMSD is and is not normalized by a          %
+% reference standard diviation.                                           %
 %                                                                         %
-% Developed :                                                             %
-% Skyler Kern - October 5, 2021                                           %
+% The code has been used to test the cases where only the first thirty    %
+% days of the simulations and the case where the RMSD is calculated using %
+% monthly averages from the 3rd year of data. The latter is currently     %
+% commented out.                                                          %
+%                                                                         %
+% Developed : Skyler Kern                                                 %
 %                                                                         %
 % Institution :                                                           %
 % This was created in support of research done in the Turbulence and      %
@@ -22,7 +29,7 @@
 close all, clear all, clc
 
 % Sensitivity Analysis run directory
-RootDir = '../SA-Runs/OaT-Pert-dt400-05perc/';
+RootDir = '../SA-Runs/V1_UpdatedRuns-230308/OaT-Pert-dt400-05perc-bats/';
 % Output file name
 File = 'bfm17_pom1d.nc';
 
