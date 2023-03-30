@@ -176,7 +176,9 @@ Total_Norm_RMSD_dn = sum(RMSD_norm(:,2,:),3);
 Max_Norm_RMSD = max(Total_Norm_RMSD_up, Total_Norm_RMSD_dn);
 % Sort to arrange parameters in ascending order
 [Max_Norm_RMSD_Srt, Prm_Ind_Srt] = sort(Max_Norm_RMSD,'descend');
+
 %%
+save('RefPlots/OaTSA-BATS-30d-MaxNRMSD-tst.mat','Max_Norm_RMSD')
 
 for pind = 1:51
     % Parameter Names organized according to descending Max RMSD Values
@@ -226,4 +228,4 @@ ax.XTickLabelRotation = 270; ax.FontName = fname; ax.FontSize = fsize;
 ax.TickLabelInterpreter = 'latex';
 
 f1.PaperPosition = [12 12 FigWidth FigHeight];
-% print(f1,'-dpng', '-r600','Paper/SAResults.png')
+print(f1,'-dpng', '-r600','RefPlots/SAResults-30d.png')
